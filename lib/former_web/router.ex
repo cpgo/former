@@ -16,6 +16,12 @@ defmodule FormerWeb.Router do
 
   scope "/", FormerWeb do
     pipe_through :browser
+    live "/units", UnitLive.Index, :index
+    live "/units/new", UnitLive.Index, :new
+    live "/units/:id/edit", UnitLive.Index, :edit
+
+    live "/units/:id", UnitLive.Show, :show
+    live "/units/:id/show/edit", UnitLive.Show, :edit
 
     get "/", PageController, :index
   end
