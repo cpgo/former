@@ -1,11 +1,11 @@
 defmodule FormerWeb.UnitLive.FormComponent do
   use FormerWeb, :live_component
 
-  alias Former.Map
+  alias Former.Maps
 
   @impl true
   def update(%{unit: unit} = assigns, socket) do
-    changeset = Map.change_unit(unit)
+    changeset = Maps.change_unit(unit)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule FormerWeb.UnitLive.FormComponent do
   def handle_event("validate", %{"unit" => unit_params}, socket) do
     changeset =
       socket.assigns.unit
-      |> Map.change_unit(unit_params)
+      |> Maps.change_unit(unit_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule FormerWeb.UnitLive.FormComponent do
   end
 
   defp save_unit(socket, :edit, unit_params) do
-    case Map.update_unit(socket.assigns.unit, unit_params) do
+    case Maps.update_unit(socket.assigns.unit, unit_params) do
       {:ok, _unit} ->
         {:noreply,
          socket
@@ -41,7 +41,7 @@ defmodule FormerWeb.UnitLive.FormComponent do
   end
 
   defp save_unit(socket, :new, unit_params) do
-    case Map.create_unit(unit_params) do
+    case Maps.create_unit(unit_params) do
       {:ok, _unit} ->
         {:noreply,
          socket

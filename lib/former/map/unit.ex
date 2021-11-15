@@ -1,4 +1,4 @@
-defmodule Former.Map.Unit do
+defmodule Former.Maps.Unit do
   use Ecto.Schema
   import Ecto.Changeset
 

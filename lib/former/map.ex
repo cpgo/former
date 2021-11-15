@@ -1,4 +1,4 @@
-defmodule Former.Map do
+defmodule Former.Maps do
   @moduledoc """
   The Map context.
   """
@@ -6,7 +6,7 @@ defmodule Former.Map do
   import Ecto.Query, warn: false
   alias Former.Repo
 
-  alias Former.Map.Unit
+  alias Former.Maps.Unit
 
   @doc """
   Returns the list of units.
