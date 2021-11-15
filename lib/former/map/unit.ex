@@ -13,5 +13,6 @@ defmodule Former.Maps.Unit do
     unit
     |> cast(attrs, [:description])
     |> validate_required([:description])
+    |> validate_length(:description, min: 5, max: 1000)
   end
 end
