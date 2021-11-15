@@ -1,7 +1,7 @@
 defmodule FormerWeb.UnitLive.Show do
   use FormerWeb, :live_view
 
-  alias Former.Map
+  alias Former.Maps
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule FormerWeb.UnitLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:unit, Map.get_unit!(id))}
+     |> assign(:unit, Maps.get_unit!(id))}
   end
 
   defp page_title(:show), do: "Show Unit"
