@@ -1,4 +1,4 @@
-defmodule Former.Map do
+defmodule Former.Maps do
   @moduledoc """
   The Map context.
   """
@@ -6,7 +6,7 @@ defmodule Former.Map do
   import Ecto.Query, warn: false
   alias Former.Repo
 
-  alias Former.Map.Unit
+  alias Former.Maps.Unit
 
   @doc """
   Returns the list of units.
@@ -53,6 +53,7 @@ defmodule Former.Map do
     %Unit{}
     |> Unit.changeset(attrs)
     |> Repo.insert()
+    |> broadcast_change([:unit, :created])
   end
 
   @doc """
@@ -71,6 +72,7 @@ defmodule Former.Map do
     unit
     |> Unit.changeset(attrs)
     |> Repo.update()
+    |> broadcast_change([:unit, :updated])
   end
 
   @doc """
@@ -87,6 +89,7 @@ defmodule Former.Map do
   """
   def delete_unit(%Unit{} = unit) do
     Repo.delete(unit)
+    |> broadcast_change([:unit, :deleted])
   end
 
   @doc """
@@ -101,4 +104,16 @@ defmodule Former.Map do
   def change_unit(%Unit{} = unit, attrs \\ %{}) do
     Unit.changeset(unit, attrs)
   end
+
+  @topic inspect(__MODULE__)
+  def subscribe do
+    Phoenix.PubSub.subscribe(Former.PubSub, @topic)
+  end
+
+  defp broadcast_change({:ok, result}, event) do
+    Phoenix.PubSub.broadcast(Former.PubSub, @topic, {__MODULE__, event, result})
+
+    {:ok, result}
+  end
+
 end

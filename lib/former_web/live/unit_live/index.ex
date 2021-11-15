@@ -1,11 +1,12 @@
 defmodule FormerWeb.UnitLive.Index do
   use FormerWeb, :live_view
 
-  alias Former.Map
-  alias Former.Map.Unit
+  alias Former.Maps
+  alias Former.Maps.Unit
 
   @impl true
   def mount(_params, _session, socket) do
+    Maps.subscribe()
     {:ok, assign(socket, :units, list_units())}
   end
 
@@ -17,7 +18,7 @@ defmodule FormerWeb.UnitLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Unit")
-    |> assign(:unit, Map.get_unit!(id))
+    |> assign(:unit, Maps.get_unit!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -34,13 +35,18 @@ defmodule FormerWeb.UnitLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    unit = Map.get_unit!(id)
-    {:ok, _} = Map.delete_unit(unit)
+    unit = Maps.get_unit!(id)
+    {:ok, _} = Maps.delete_unit(unit)
 
     {:noreply, assign(socket, :units, list_units())}
   end
 
+  @impl true
+  def handle_info({Unit, [:unit | _], _}, socket) do
+    {:noreply, assign(socket, :units, list_units())}
+  end
+
   defp list_units do
-    Map.list_units()
+    Maps.list_units()
   end
 end
