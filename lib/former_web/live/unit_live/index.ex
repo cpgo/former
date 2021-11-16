@@ -7,7 +7,7 @@ defmodule FormerWeb.UnitLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Maps.subscribe()
-    {:ok, assign(socket, :units, list_units()), temporary_assigns: [units: []]}
+    {:ok, assign(socket, :units, list_units())}
   end
 
   @impl true
@@ -47,6 +47,9 @@ defmodule FormerWeb.UnitLive.Index do
   end
   def handle_info({:unit_updated, unit}, socket) do
     {:noreply, update(socket, :units, fn units -> [unit | units] end)}
+  end
+  def handle_info({:unit_deleted, _unit}, socket) do
+    {:noreply, assign(socket, :units, list_units())}
   end
 
   defp list_units do

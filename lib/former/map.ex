@@ -89,7 +89,7 @@ defmodule Former.Maps do
   """
   def delete_unit(%Unit{} = unit) do
     Repo.delete(unit)
-    # |> broadcast_change(:unit_deleted)
+    |> broadcast_change(:unit_deleted)
   end
 
   @doc """
