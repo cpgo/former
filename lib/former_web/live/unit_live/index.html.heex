@@ -17,9 +17,9 @@
       <th></th>
     </tr>
   </thead>
-  <tbody id="units">
+  <tbody id="units" phx-update="prepend">
     <%= for unit <- @units do %>
-      <tr id={"unit-#{unit.id}"}>
+      <tr id={"unit-#{unit.id}"} phx-hook="HideElement">
         <td><%= unit.description %></td>
 
         <td>
